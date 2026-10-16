@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="MOTOR DAILY 車壇日報：掌握台灣汽機車新聞、新車發表、交通法規與全球車壇動態。">
+  <title>MOTOR DAILY｜車壇日報</title>
+
+  <style>
+    :root {
+      --bg: #101115;
+      --card: #1d2026;
+      --card-hover: #292d35;
+      --text: #f5f5f5;
+      --muted: #a5a8b1;
+      --red: #e53935;
+      --border: #343840;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Microsoft JhengHei", "Noto Sans TC",
+                   Arial, sans-serif;
+      line-height: 1.7;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .container {
+      width: min(1200px, 92%);
+      margin: auto;
+    }
+
+    /* 網站頂部 */
+    header {
+      background: #14161b;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-main {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 17px 0;
+      gap: 20px;
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: 1.5px;
+      line-height: 1.2;
+    }
+
+    .logo span {
+      color: var(--red);
+    }
+
+    .logo small {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: normal;
+      letter-spacing: 2px;
+      margin-top: 5px;
+    }
+
+    .header-right {
+      color: var(--muted);
+      font-size: 13px;
+      text-align: right;
+    }
+
+    .header-right strong {
+      color: #75d8a7;
+      font-weight: 500;
+    }
+
+    /* 導覽列 */
+    nav {
+      background: #1a1c22;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .nav-inner::-webkit-scrollbar {
+      display: none;
+    }
+
+    .nav-link {
+      flex-shrink: 0;
+      padding: 13px 18px;
+      font-size: 14px;
+      color: #c3c5cb;
+      border-bottom: 3px solid transparent;
+      transition: 0.2s;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      color: white;
+      border-bottom-color: var(--red);
+    }
+
+    /* 首頁焦點新聞 */
+    .hero {
+      margin-top: 28px;
+      position: relative;
+      min-height: 430px;
+      border-radius: 12px;
+      overflow: hidden;
+      background: linear-gradient(135deg, #333841, #14161b);
+      display: flex;
+      align-items: flex-end;
+      cursor: pointer;
+    }
+
+    .hero img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s;
+    }
+
+    .hero:hover img {
+      transform: scale(1.04);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(0,0,0,0.94),
+        rgba(0,0,0,0.28) 60%,
+        rgba(0,0,0,0.08)
+      );
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 38px;
+      max-width: 850px;
+    }
+
+    .tag {
+      display: inline-block;
+      background: var(--red);
+      color: white;
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 3px;
+      font-weight: bold;
+    }
+
+    .hero h1 {
+      font-size: clamp(25px, 4vw, 40px);
+      line-height: 1.35;
+      margin: 14px 0;
+    }
+
+    .hero p {
+      color: #dadce1;
+      font-size: 15px;
+      margin-bottom: 12px;
+    }
+
+    .meta {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    /* 分類與新聞區 */
+    .section {
+      margin: 46px auto;
+    }
+
+    .section-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 22px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 13px;
+    }
+
+    .section-heading h2 {
+      font-size: 24px;
+      margin: 0;
+      padding-left: 14px;
+      border-left: 4px solid var(--red);
+    }
+
+    .section-heading span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .news-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 23px;
+    }
+
+    .news-card {
+      display: block;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      overflow: hidden;
+      transition: transform 0.2s, background 0.2s;
+    }
+
+    .news-card:hover {
+      transform: translateY(-5px);
+      background: var(--card-hover);
+    }
+
+    .card-image {
+      width: 100%;
+      height: 195px;
+      background: linear-gradient(135deg, #333842, #181a1f);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .no-image {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      color: #888d98;
+      font-size: 14px;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+
+    .card-body {
+      padding: 20px;
+    }
+
+    .category {
+      color: #ff6663;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .card-body h3 {
+      font-size: 18px;
+      line-height: 1.5;
+      margin: 9px 0;
+      min-height: 54px;
+    }
+
+    .card-body p {
+      color: #b7bac2;
+      font-size: 13px;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      margin: 0 0 15px;
+    }
+
+    .card-bottom {
+      border-top: 1px solid var(--border);
+      padding-top: 12px;
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .read-more {
+      color: #ff7773;
+    }
+
+    /* 新聞內頁 */
+    .article-page {
+      max-width: 850px;
+      margin: 38px auto 70px;
+      padding: 0 20px;
+    }
+
+    .back-link {
+      color: #ff7773;
+      display: inline-block;
+      margin-bottom: 25px;
+      font-size: 14px;
+    }
+
+    .article-title {
+      font-size: clamp(27px, 4vw, 40px);
+      line-height: 1.4;
+      margin: 15px 0;
+    }
+
+    .article-meta {
+      color: var(--muted);
+      font-size: 13px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 20px;
+      margin-bottom: 25px;
+    }
+
+    .article-cover {
+      width: 100%;
+      max-height: 450px;
+      object-fit: cover;
+      border-radius: 9px;
+      margin-bottom: 10px;
+    }
+
+    .image-credit {
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+
+    .article-summary {
+      background: #22262e;
+      border-left: 4px solid var(--red);
+      padding: 20px 24px;
+      margin: 25px 0;
+      color: #e7e7e7;
+      border-radius: 0 7px 7px 0;
+    }
+
+    .article-body {
+      font-size: 17px;
+      line-height: 2.05;
+      color: #dedfe4;
+    }
+
+    .article-body p {
+      margin-bottom: 25px;
+    }
+
+    .article-source {
+      margin-top: 35px;
+      padding: 20px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--card);
+      font-size: 13px;
+      overflow-wrap: anywhere;
+    }
+
+    .article-source a {
+      color: #ff7773;
+      text-decoration: underline;
+    }
+
+    .notice {
+      background: #24262c;
+      color: #bdc0c8;
+      padding: 13px 18px;
+      border-radius: 7px;
+      font-size: 13px;
+      margin-top: 24px;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 70px 15px;
+      color: var(--muted);
+    }
+
+    .empty-state h3 {
+      color: white;
+    }
+
+    /* 頁尾 */
+    footer {
+      border-top: 1px solid var(--border);
+      background: #16181d;
+      padding: 35px 20px;
+      text-align: center;
+      margin-top: 60px;
+    }
+
+    footer h3 {
+      margin: 0 0 7px;
+      letter-spacing: 1px;
+    }
+
+    footer p {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    /* 平板 */
+    @media (max-width: 950px) {
+      .news-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    /* 手機 */
+    @media (max-width: 600px) {
+      .logo {
+        font-size: 21px;
+      }
+
+      .header-right {
+        font-size: 11px;
+      }
+
+      .nav-link {
+        padding: 11px 13px;
+        font-size: 13px;
+      }
+
+      .hero {
+        min-height: 360px;
+        margin-top: 18px;
+      }
+
+      .hero-content {
+        padding: 22px;
+      }
+
+      .hero p {
+        font-size: 13px;
+      }
+
+      .section {
+        margin: 32px auto;
+      }
+
+      .section-heading h2 {
+        font-size: 20px;
+      }
+
+      .news-grid {
+        grid-template-columns: 1fr;
+        gap: 17px;
+      }
+
+      .card-image {
+        height: 210px;
+      }
+
+      .article-body {
+        font-size: 16px;
+      }
+
+      .article-page {
+        margin-top: 25px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- 網站標題 -->
+  <header>
+    <div class="container header-main">
+      <a href="#home" class="logo">
+        MOTOR <span>DAILY</span>
+        <small>車壇日報｜汽機車新聞資訊</small>
+      </a>
+
+      <div class="header-right">
+        <div id="today"></div>
+        <strong id="updateStatus">新聞資料讀取中</strong>
+      </div>
+    </div>
+  </header>
+
+  <!-- 網站分類 -->
+  <nav>
+    <div class="container nav-inner" id="navigation">
+      <a href="#home" class="nav-link active" data-category="all">
+        首頁
+      </a>
+      <a href="#category/new-car" class="nav-link" data-category="new-car">
+        新車快訊
+      </a>
+      <a href="#category/law" class="nav-link" data-category="law">
+        台灣交通法規
+      </a>
+      <a href="#category/global" class="nav-link" data-category="global">
+        全球車壇
+      </a>
+      <a href="#category/motorcycle" class="nav-link" data-category="motorcycle">
+        機車專區
+      </a>
+    </div>
+  </nav>
+
+  <!-- 首頁 -->
+  <main id="homePage" class="container">
+
+    <section id="hero" class="hero" hidden>
+      <img id="heroImage" alt="焦點新聞圖片">
+      <div class="hero-content">
+        <span class="tag">今日焦點</span>
+        <h1 id="heroTitle"></h1>
+        <p id="heroSummary"></p>
+        <div id="heroMeta" class="meta"></div>
+      </div>
+    </section>
+
+    <!-- 最新新聞 -->
+    <section class="section">
+      <div class="section-heading">
+        <h2 id="listTitle">最新新聞</h2>
+        <span id="articleCount"></span>
+      </div>
+
+      <div class="news-grid" id="newsGrid"></div>
+    </section>
+
+    <div class="notice" id="demoNotice" hidden>
+      目前顯示的是示範文章，並非即時新聞。
+      上傳由新聞更新程式產生的 news.json 後，
+      本站可顯示實際取得的新聞資料。
+    </div>
+
+  </main>
+
+  <!-- 文章內頁 -->
+  <main id="articlePage" class="article-page" hidden></main>
+
+  <!-- 頁尾 -->
+  <footer>
+    <h3>MOTOR DAILY｜車壇日報</h3>
+    <p>台灣汽機車新聞・新車資訊・交通法規・全球車壇</p>
+    <p>新聞資料以來源內容為準，實際規格與法規請參考官方公告。</p>
+    <p id="footerYear"></p>
+  </footer>
+
+  <script>
+    "use strict";
+
+    /*
+      MOTOR DAILY｜單一 HTML 網站
+
+      功能：
+      1. 深色汽車雜誌風格
+      2. 新聞分類切換
+      3. 新聞卡片
+      4. 站內文章閱讀
+      5. 手機與電腦響應式排版
+      6. 優先讀取 news.json
+      7. 沒有 news.json 時使用示範資料
+
+      注意：
+      單一 HTML 無法在 GitHub Pages 上自行執行
+      Python 或直接可靠地抓取所有新聞網站。
+
+      要達成真正的新聞自動更新，
+      需要另外設定 GitHub Actions 定期產生 news.json。
+
+      news.json 格式範例：
+
+      {
+        "updatedAt": "2026-10-16T12:00:00+08:00",
+        "articles": [
+          {
+            "id": "article-001",
+            "title": "新聞標題",
+            "category": "new-car",
+            "date": "2026-10-16",
+            "source": "官方新聞中心",
+            "sourceUrl": "https://example.com/article",
+            "summary": "新聞摘要",
+            "content": [
+              "第一段文章內容。",
+              "第二段文章內容。"
+            ],
+            "image": "https://example.com/image.jpg",
+            "imageAlt": "實際新聞車款照片",
+            "imageCredit": "圖片來源及授權資訊",
+            "featured": true
+          }
+        ]
+      }
+
+      category 可使用：
+      new-car / law / global / motorcycle
+    */
+
+    /* -----------------------------------
+       基本設定
+    ----------------------------------- */
+
+    const CATEGORY_NAMES = {
+      "new-car": "新車快訊",
+      "law": "台灣交通法規",
+      "global": "全球車壇",
+      "motorcycle": "機車專區"
+    };
+
+    const CATEGORY_KEYS = Object.keys(CATEGORY_NAMES);
+
+    const state = {
+      articles: [],
+      demo: false,
+      updatedAt: null
+    };
+
+    const $ = (id) => document.getElementById(id);
+
+    /* -----------------------------------
+       示範新聞
+       以下不是即時新聞
+    ----------------------------------- */
+
+    const demoArticles = [
+      {
+        id: "demo-new-car",
+        title: "新車快訊｜認識新車發表時最值得關注的資訊",
+        category: "new-car",
+        date: "2026-10-16",
+        source: "MOTOR DAILY 示範內容",
+        sourceUrl: "",
+        summary: "從動力、配備到上市資訊，了解閱讀新車新聞時應該注意的重點。",
+        image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=1200&auto=format&fit=crop&q=85",
+        imageAlt: "跑車示意照片",
+        imageCredit: "Unsplash 示意圖片，非特定新車發表照片",
+        featured: true,
+        content: [
+          "當汽車品牌正式發表新車時，除了車輛的外觀設計，動力系統與實際市場定位也是值得關注的重點。不同地區的車輛規格可能有所差異，因此必須確認資料所對應的銷售市場。",
+          "對台灣消費者而言，官方是否宣布引進、預計上市時間、建議售價及安全配備，都是選購新車的重要資訊。若原廠尚未公布台灣市場消息，就不能將海外售價直接視為台灣售價。",
+          "本網站未來將以車廠正式發布的資訊為基礎，整理各款新車的主要特色，並將尚未確認的內容清楚標示。"
+        ]
+      },
+      {
+        id: "demo-law",
+        title: "交通法規｜如何確認台灣最新交通政策是否已正式上路？",
+        category: "law",
+        date: "2026-10-16",
+        source: "MOTOR DAILY 示範內容",
+        sourceUrl: "",
+        summary: "法規草案、公布與實施日期可能不同，閱讀交通新聞時應確認官方資訊。",
+        image: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=1200&auto=format&fit=crop&q=85",
+        imageAlt: "道路交通示意照片",
+        imageCredit: "Unsplash 道路交通示意圖片",
+        featured: false,
+        content: [
+          "台灣的交通政策涉及汽車駕駛、機車騎士以及其他道路使用者。每當主管機關提出新規定時，民眾應先了解這項規定目前處於什麼階段。",
+          "法規修正通常可能經過研議、草案預告、正式公布及施行等階段。即使新聞提到未來可能提高罰鍰，也不代表新的罰鍰金額已經生效。",
+          "因此，本網站整理交通法規新聞時，將優先確認官方公告、適用對象、實際施行日期與規定內容，避免讀者因不完整資訊而產生誤解。"
+        ]
+      },
+      {
+        id: "demo-global",
+        title: "全球車壇｜電動化與新技術如何影響汽車產業？",
+        category: "global",
+        date: "2026-10-16",
+        source: "MOTOR DAILY 示範內容",
+        sourceUrl: "",
+        summary: "從電動車發展、車廠合作到新科技，掌握國際汽車產業的主要觀察方向。",
+        image: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=1200&auto=format&fit=crop&q=85",
+        imageAlt: "汽車示意照片",
+        imageCredit: "Unsplash 汽車示意圖片",
+        featured: false,
+        content: [
+          "全球汽車產業持續投入電動化、軟體系統與車輛安全技術的研發。不同汽車品牌也依照市場需求及企業策略，選擇不同的產品發展方向。",
+          "除了新車發表，車廠之間的合作、工廠投資、產能調整及重大召回事件，也可能影響全球汽車市場。",
+          "MOTOR DAILY 未來會挑選具有重要性與可信來源的國際新聞，整理事件背景、主要資訊及其與台灣市場的關聯。"
+        ]
+      },
+      {
+        id: "demo-motorcycle",
+        title: "機車專區｜新車上市除了售價，還有哪些重點？",
+        category: "motorcycle",
+        date: "2026-10-16",
+        source: "MOTOR DAILY 示範內容",
+        sourceUrl: "",
+        summary: "整理台灣機車市場常見的選車重點，包括動力、安全配備與使用需求。",
+        image: "https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=1200&auto=format&fit=crop&q=85",
+        imageAlt: "機車示意照片",
+        imageCredit: "Unsplash 機車示意圖片",
+        featured: false,
+        content: [
+          "台灣機車市場包含日常通勤使用的速克達、電動機車，以及不同級距的檔車與大型重機。各種類型的車款在用途、騎乘感受及配備方面都有明顯差異。",
+          "閱讀機車新車新聞時，除了價格與外型，也應注意車輛的排氣量或動力規格、煞車系統、車身尺寸，以及是否搭載符合個人需求的安全或便利配備。",
+          "本站未來將整理台灣機車品牌與國際車廠的重要資訊，並以官方公布內容為主要依據。"
+        ]
+      }
+    ];
+
+    /* -----------------------------------
+       安全處理文字和網址
+    ----------------------------------- */
+
+    function escapeHTML(value) {
+      return String(value ?? "").replace(/[&<>"']/g, (char) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      })[char]);
+    }
+
+    function safeUrl(value) {
+      if (!value || typeof value !== "string") return "";
+
+      try {
+        const url = new URL(value, document.baseURI);
+
+        if (url.protocol === "https:" ||
+            url.protocol === "http:") {
+          return url.href;
+        }
+      } catch (error) {
+        return "";
+      }
+
+      return "";
+    }
+
+    function formatDate(value) {
+      if (!value) return "日期未提供";
+
+      const date = new Date(value);
+
+      if (Number.isNaN(date.getTime())) {
+        return String(value);
+      }
+
+      return new Intl.DateTimeFormat("zh-TW", {
+        timeZone: "Asia/Taipei",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit"
+      }).format(date);
+    }
+
+    function getCategoryName(key) {
+      return CATEGORY_NAMES[key] || "車壇新聞";
+    }
+
+    function getParagraphs(content) {
+      if (Array.isArray(content)) {
+        return content.filter(
+          (item) => typeof item === "string" && item.trim()
+        );
+      }
+
+      if (typeof content === "string") {
+        return content
+          .split(/\n+/)
+          .filter((item) => item.trim());
+      }
+
+      return [];
+    }
+
+    /* -----------------------------------
+       圖片處理
+    ----------------------------------- */
+
+    function imageHTML(article, className = "") {
+      const url = safeUrl(article.image);
+
+      if (!url) {
+        return `
+          <div class="no-image">
+            MOTOR DAILY
+          </div>
+        `;
+      }
+
+      return `
+        <img
+          class="${className}"
+          src="${escapeHTML(url)}"
+          alt="${escapeHTML(article.imageAlt || article.title)}"
+          loading="lazy"
+          referrerpolicy="no-referrer"
+          onerror="this.style.display='none';
+                   this.parentElement.classList.add('image-error')"
+        >
+      `;
+    }
+
+    /* -----------------------------------
+       排序新聞
+    ----------------------------------- */
+
+    function sortArticles(articles) {
+      return [...articles].sort((a, b) => {
+        const timeA = Date.parse(a.date) || 0;
+        const timeB = Date.parse(b.date) || 0;
+        return timeB - timeA;
+      });
+    }
+
+    function getFeaturedArticle(articles) {
+      if (!articles.length) return null;
+
+      return articles.find(
+        (article) => article.featured === true
+      ) || articles[0];
+    }
+
+    /* -----------------------------------
+       顯示首頁焦點新聞
+    ----------------------------------- */
+
+    function renderHero() {
+      const article = getFeaturedArticle(state.articles);
+      const hero = $("hero");
+
+      if (!article) {
+        hero.hidden = true;
+        return;
+      }
+
+      hero.hidden = false;
+
+      $("heroTitle").textContent = article.title;
+      $("heroSummary").textContent = article.summary || "";
+      $("heroMeta").textContent =
+        `${formatDate(article.date)}｜${article.source || "未標示來源"}`;
+
+      const heroImage = $("heroImage");
+      const url = safeUrl(article.image);
+
+      if (url) {
+        heroImage.src = url;
+        heroImage.alt = article.imageAlt || article.title;
+        heroImage.hidden = false;
+
+        heroImage.onerror = () => {
+          heroImage.hidden = true;
+        };
+      } else {
+        heroImage.hidden = true;
+      }
+
+      hero.onclick = () => {
+        window.location.hash =
+          "#article/" + encodeURIComponent(article.id);
+      };
+
+      hero.setAttribute("role", "link");
+      hero.setAttribute("tabindex", "0");
+
+      hero.onkeydown = (event) => {
+        if (event.key === "Enter") {
+          hero.click();
+        }
+      };
+    }
+
+    /* -----------------------------------
+       建立新聞卡片
+    ----------------------------------- */
+
+    function createNewsCard(article) {
+      const link = "#article/" + encodeURIComponent(article.id);
+
+      return `
+        <a class="news-card" href="${escapeHTML(link)}">
+
+          <div class="card-image">
+            ${imageHTML(article)}
+          </div>
+
+          <div class="card-body">
+
+            <span class="category">
+              ${escapeHTML(getCategoryName(article.category))}
+            </span>
+
+            <h3>${escapeHTML(article.title)}</h3>
+
+            <p>${escapeHTML(article.summary || "")}</p>
+
+            <div class="card-bottom">
+              <span>${escapeHTML(formatDate(article.date))}</span>
+              <span class="read-more">閱讀全文 →</span>
+            </div>
+
+          </div>
+
+        </a>
+      `;
+    }
+
+    /* -----------------------------------
+       顯示新聞列表
+    ----------------------------------- */
+
+    function renderNewsList(category = "all") {
+      let articles = sortArticles(state.articles);
+
+      if (category !== "all") {
+        articles = articles.filter(
+          (article) => article.category === category
+        );
+      }
+
+      $("listTitle").textContent =
+        category === "all"
+          ? "最新新聞"
+          : getCategoryName(category);
+
+      $("articleCount").textContent =
+        `共 ${articles.length} 篇文章`;
+
+      if (!articles.length) {
+        $("newsGrid").innerHTML = `
+          <div class="empty-state">
+            <h3>目前沒有相關新聞</h3>
+            <p>請稍後再查看最新消息。</p>
+          </div>
+        `;
+      } else {
+        $("newsGrid").innerHTML =
+          articles.map(createNewsCard).join("");
+      }
+
+      $("hero").hidden = category !== "all";
+
+      if (category === "all") {
+        renderHero();
+      }
+    }
+
+    /* -----------------------------------
+       顯示單篇文章
+    ----------------------------------- */
+
+    function renderArticle(articleId) {
+      const article = state.articles.find(
+        (item) => String(item.id) === articleId
+      );
+
+      $("homePage").hidden = true;
+      $("articlePage").hidden = false;
+
+      if (!article) {
+        $("articlePage").innerHTML = `
+          <a class="back-link" href="#home">← 返回首頁</a>
+          <div class="empty-state">
+            <h3>找不到這篇文章</h3>
+            <p>文章可能尚未發布，或已經移除。</p>
+          </div>
+        `;
+        return;
+      }
+
+      const paragraphs = getParagraphs(article.content);
+
+      const bodyHTML = paragraphs.length
+        ? paragraphs.map(
+            (paragraph) => `<p>${escapeHTML(paragraph)}</p>`
+          ).join("")
+        : "<p>目前僅提供新聞摘要，完整資料尚待確認。</p>";
+
+      const imageUrl = safeUrl(article.image);
+
+      const coverHTML = imageUrl
+        ? `
+          <img
+            class="article-cover"
+            src="${escapeHTML(imageUrl)}"
+            alt="${escapeHTML(article.imageAlt || article.title)}"
+            onerror="this.style.display='none'"
+          >
+          <div class="image-credit">
+            ${escapeHTML(article.imageCredit || "新聞相關圖片")}
+          </div>
+        `
+        : "";
+
+      const sourceUrl = safeUrl(article.sourceUrl);
+
+      const sourceHTML = sourceUrl
+        ? `
+          <a
+            href="${escapeHTML(sourceUrl)}"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            查看原始來源 ↗
+          </a>
+        `
+        : "<span>未提供外部來源連結</span>";
+
+      $("articlePage").innerHTML = `
+        <a class="back-link" href="#home">
+          ← 返回新聞首頁
+        </a>
+
+        <div>
+          <span class="tag">
+            ${escapeHTML(getCategoryName(article.category))}
+          </span>
+
+          <h1 class="article-title">
+            ${escapeHTML(article.title)}
+          </h1>
+
+          <div class="article-meta">
+            發布日期：${escapeHTML(formatDate(article.date))}
+            ｜資料來源：${escapeHTML(article.source || "未標示")}
+          </div>
+        </div>
+
+        ${coverHTML}
+
+        <div class="article-summary">
+          <strong>新聞重點</strong>
+          <p>${escapeHTML(article.summary || "")}</p>
+        </div>
+
+        <div class="article-body">
+          ${bodyHTML}
+        </div>
+
+        <div class="article-source">
+          <strong>新聞資料來源</strong>
+          <p>${escapeHTML(article.source || "未標示來源")}</p>
+          ${sourceHTML}
+        </div>
+
+        <div class="notice">
+          本站內容以可確認的資料整理。
+          車輛規格、售價及交通法規，
+          請以車廠或主管機關正式公告為準。
+        </div>
+      `;
+
+      document.title = article.title + "｜MOTOR DAILY";
+    }
+
+    /* -----------------------------------
+       導覽列狀態
+    ----------------------------------- */
+
+    function updateNavigation(category) {
+      document.querySelectorAll(".nav-link").forEach((link) => {
+        link.classList.toggle(
+          "active",
+          link.dataset.category === category
+        );
+      });
+    }
+
+    /* -----------------------------------
+       網站路由切換
+    ----------------------------------- */
+
+    function route() {
+      const hash = window.location.hash || "#home";
+
+      if (hash.startsWith("#article/")) {
+        const articleId = decodeURIComponent(
+          hash.slice("#article/".length)
+        );
+
+        renderArticle(articleId);
+        updateNavigation("");
+      } else {
+        let category = "all";
+
+        if (hash.startsWith("#category/")) {
+          const requestedCategory = decodeURIComponent(
+            hash.slice("#category/".length)
+          );
+
+          if (CATEGORY_KEYS.includes(requestedCategory)) {
+            category = requestedCategory;
+          }
+        }
+
+        $("homePage").hidden = false;
+        $("articlePage").hidden = true;
+
+        renderNewsList(category);
+        updateNavigation(category);
+
+        document.title = category === "all"
+          ? "MOTOR DAILY｜車壇日報"
+          : getCategoryName(category) + "｜MOTOR DAILY";
+      }
+
+      window.scrollTo(0, 0);
+    }
+
+    /* -----------------------------------
+       驗證新聞資料
+    ----------------------------------- */
+
+    function normalizeArticles(rawArticles) {
+      if (!Array.isArray(rawArticles)) {
+        return [];
+      }
+
+      const ids = new Set();
+
+      return rawArticles.filter((article) => {
+        if (!article || typeof article !== "object") {
+          return false;
+        }
+
+        if (!article.id || !article.title) {
+          return false;
+        }
+
+        if (!CATEGORY_KEYS.includes(article.category)) {
+          return false;
+        }
+
+        if (ids.has(String(article.id))) {
+          return false;
+        }
+
+        ids.add(String(article.id));
+        return true;
+      });
+    }
+
+    /* -----------------------------------
+       讀取最新新聞 JSON
+
+       GitHub Actions 可以定期更新 news.json，
+       HTML 開啟時便會取得最新版本。
+    ----------------------------------- */
+
+    async function loadNews() {
+      let success = false;
+
+      try {
+        const response = await fetch(
+          "./news.json?t=" + Date.now(),
+          { cache: "no-store" }
+        );
+
+        if (!response.ok) {
+          throw new Error("目前沒有新聞資料檔");
+        }
+
+        const data = await response.json();
+
+        const articles = normalizeArticles(
+          Array.isArray(data) ? data : data.articles
+        );
+
+        if (articles.length > 0) {
+          state.articles = sortArticles(articles);
+          state.demo = false;
+          state.updatedAt = data.updatedAt || null;
+          success = true;
+        }
+      } catch (error) {
+        console.info(
+          "尚未取得外部新聞資料，改用示範內容。",
+          error.message
+        );
+      }
+
+      if (!success) {
+        if (!state.articles.length || state.demo) {
+          state.articles = sortArticles(demoArticles);
+          state.demo = true;
+          state.updatedAt = null;
+        }
+      }
+
+      $("demoNotice").hidden = !state.demo;
+
+      $("updateStatus").textContent = state.demo
+        ? "展示模式"
+        : "新聞資料已載入";
+
+      if (state.updatedAt && !state.demo) {
+        $("updateStatus").textContent =
+          "最後更新：" + formatDate(state.updatedAt);
+      }
+
+      route();
+    }
+
+    /* -----------------------------------
+       日期顯示
+    ----------------------------------- */
+
+    function renderToday() {
+      const today = new Date();
+
+      $("today").textContent =
+        new Intl.DateTimeFormat("zh-TW", {
+          timeZone: "Asia/Taipei",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          weekday: "long"
+        }).format(today);
+
+      $("footerYear").textContent =
+        `© ${today.getFullYear()} MOTOR DAILY`;
+    }
+
+    /* -----------------------------------
+       啟動網站
+    ----------------------------------- */
+
+    function init() {
+      renderToday();
+
+      window.addEventListener("hashchange", route);
+
+      loadNews();
+
+      // 頁面保持開啟時，每 15 分鐘重新檢查 JSON。
+      // 這不會主動抓取外部新聞；
+      // 實際 news.json 由 GitHub Actions 更新。
+      setInterval(loadNews, 15 * 60 * 1000);
+    }
+
+    init();
+  </script>
+
+</body>
+</html>
